@@ -21,3 +21,9 @@ class RegisterBlogRequest(BaseModel):
     references: List[str] = Field(default_factory=list, description="List of server-side paths or URLs to reference files.")
     
     state: BlogState = Field(..., description="The publication state (drafted or published).")
+
+
+class RegisterBlogResponse(BaseModel):
+    status: str = Field(..., description="The status of the response.")
+    id: Optional[int] = Field(..., description="Registered blog id.")
+    message: str = Field(..., description="Response detailed message.")

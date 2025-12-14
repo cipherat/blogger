@@ -9,7 +9,7 @@ from app.services.register_blog import RegisterBlogService, get_register_blog_se
 
 from app.contracts.get_blog import GetBlogResponse
 from app.contracts.get_blogs import GetBlogsResponse
-from app.contracts.register_blog import RegisterBlogRequest
+from app.contracts.register_blog import RegisterBlogRequest, RegisterBlogResponse
 
 
 router = APIRouter(
@@ -53,16 +53,18 @@ async def get_all_blogs(
             detail=f"Internal server error: {e}",
         )
 
-@router.post("/register", status_code=status.HTTP_201_CREATED)
+@router.post("/register", response_model=RegisterBlogResponse, status_code=status.HTTP_201_CREATED)
 async def register_blog(
     request: RegisterBlogRequest,
     service: RegisterBlogService = Depends(get_register_blog_service),
-):
+) -> RegisterBlogResponse:
     try:
-        service.run(request)
-        return {
-            "message": "Blog metadata and files received successfully",
-        }
+        result = service.run(request)
+        return RegisterBlogResponse(
+            status=result.get("status", "failure"),
+            id=result.get("id", -1),
+            message=result.get("message", "Failed to register Blog metadata."),
+        )
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
