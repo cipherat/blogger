@@ -50,7 +50,11 @@ class RegisterBlogService:
         )
         
         self.model.save(blog)
-        return {"status": "success", "blog_id": blog.id}
+        return {
+            "status": "success",
+            "id": blog.id,
+            "message": f"Blog with ID ({blog.id}) was registered successfully",
+        }
 
     def _validate(self):
         pass
