@@ -1,2 +1,0 @@
-id,title,category,keywords,created_at,published_at,last_update,content_file,references,state
-1765717465,my first blog,testing,first|blog|tool,2025-12-14,2025-12-14,2025-12-14,_blogs/my_first_blog.md,/test/reference.md,published
