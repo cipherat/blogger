@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.controllers.register_blog import router as blog_router
+from app.controllers.blog import router as blog_router
 
 
 API_VERSION = "v1.0.0"
