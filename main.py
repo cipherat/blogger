@@ -32,4 +32,4 @@ async def root():
     return {"message": f"Blog Management API ({API_VERSION}) running. Access /docs for documentation."}
 
 # To run the application, use the command: 
-# uvicorn app:app --reload --port 6969
+# uvicorn main:app --reload --port 6969
