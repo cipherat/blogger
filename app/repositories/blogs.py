@@ -96,4 +96,4 @@ class BlogRepository:
 
 
 def get_blog_repository() -> BlogRepository:
-    return BlogRepository(file_path=os.getenv("BLOGGER_DB", ".blogger/blogs.csv"))
+    return BlogRepository(file_path=os.getenv("BLOGGER_DB", ".blogger/database.csv"))
