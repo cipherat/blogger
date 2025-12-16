@@ -2,6 +2,8 @@ import csv
 from typing import List, Dict, Any, Optional
 import os
 
+from app.utils.pagination import get_csv_row_count
+
 
 BLOG_FIELDNAMES = [
     "id",
@@ -68,6 +70,50 @@ class BlogRepository:
         }
         return metadata
 
+    def find_by_permalink(self, permalink: str) -> Optional[Dict[str, Any]]:
+        from app.models.blog import BlogModel
+        #NOTE: This is inefficient for large datasets as it reads the entire CSV.
+        for entry in self.get_all():
+            try:
+                temp_blog_model = BlogModel(**entry)
+                if temp_blog_model.permalink_key == permalink:
+                    return entry
+            except Exception as e:
+                continue
+        return None
+
+    def read_paged_blogs(self, page: int, limit: int) -> Dict[str, Any]:
+        total_count = get_csv_row_count(self.file_path)
+        
+        start_index = (page - 1) * limit
+        end_index = start_index + limit
+        
+        start_line = start_index + 2 
+        end_line = end_index + 2
+
+        paged_data: List[Dict[str, Any]] = []
+        current_line = 1
+
+        with open(self.file_path, mode='r', newline='', encoding='utf-8') as file:
+            reader = csv.DictReader(file, fieldnames=BLOG_FIELDNAMES)
+            
+            next(reader) 
+            current_line += 1
+            
+            for row in reader:
+                if current_line >= end_line:
+                    break
+                
+                if current_line >= start_line:
+                    paged_data.append(self._deserialize_row(row))
+                    
+                current_line += 1
+                
+        return {
+            "blogs": paged_data,
+            "total_count": total_count
+        }
+    
     def get_all(self) -> List[Dict[str, Any]]:
         with open(self.file_path, mode='r', newline='', encoding='utf-8') as file:
             reader = csv.DictReader(file)
