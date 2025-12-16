@@ -21,3 +21,5 @@ As for now, I've noticed some limitations in using csv files:
 1. updating and/or removing rows cost me read performance
 2. I deal with literal strings rather than key-value entries, which is costly when retrieving data
 3. parsing is ugly, because some fields I have are multivalued and I can't separate them with commas, so I use another "less-common" character for separation, which is.. meeh.. I don't like it
+
+I'm planning to use this tool as an administration panel for myself on my laptop, such that whenver I write a new blog I register it in the database, and a minimal api for my blog site to load blogs information in its main page and user can browse them. But how would I sync blogs content/files and database between my laptop and my hosting server? simply by using github and open-sourcing the shit out of it, such that on every new push there is a workflow that deploys new blogs on my server.
