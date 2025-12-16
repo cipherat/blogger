@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.controllers.blog import router as blog_router
@@ -12,6 +13,7 @@ app = FastAPI(
     version=API_VERSION,
     root_path=API_PREFIX,
 )
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 origins = [
     "*",
