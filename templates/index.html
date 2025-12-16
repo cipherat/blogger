@@ -72,7 +72,7 @@
             {% set next_page_num = page_data.page + 1 %}
             
             {% if page_data.has_previous %}
-                <a href="{{ url_for('get_page_blogs') }}?page={{ prev_page_num }}" class="pagination-link">
+                <a href="{{ url_for('page_blogs') }}?page={{ prev_page_num }}" class="pagination-link">
                     <button> < PREV </button>
                 </a>
             {% else %}
@@ -82,7 +82,7 @@
             <span id="page-info">Page {{ page_data.page }} of {{ page_data.total_pages }}</span>
             
             {% if page_data.has_next %}
-                <a href="{{ url_for('get_page_blogs') }}?page={{ next_page_num }}" class="pagination-link">
+                <a href="{{ url_for('page_blogs') }}?page={{ next_page_num }}" class="pagination-link">
                     <button> NEXT > </button>
                 </a>
             {% else %}
