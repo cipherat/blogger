@@ -19,8 +19,8 @@ class RegisterBlogService:
         
         created_at_ts = int(os.path.getctime(content_path))
         last_update_ts = int(os.path.getmtime(content_path))
-        
-        unique_id = str(created_at_ts)
+
+        unique_id = str(int(created_at_ts * 1000000))
         
         return {
             "id": unique_id,
