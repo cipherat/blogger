@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>blog | cipherat.com</title>
+    
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}"> 
+    
+    <style>
+        #js-enabled-warning {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            margin: 20px auto;
+            border: 2px solid #cc0000;
+            background-color: #ffe6e6;
+            color: #cc0000;
+            font-weight: bold;
+            font-size: 1.1em;
+            /*font-family: sans-serif; */
+        }
+    </style>
+    
+</head>
+<body>
+
+    <div id="js-enabled-warning" class="container">
+        ⚠️ **WARNING: JAVASCRIPT IS ENABLED!** ⚠️
+        <p>For the love of god never use the internet with Javascript enabled.</p>
+	<p>Install "uBlock Origin" browser extension then you may continue surfing the net.</p>
+    </div>
+
+    <header>
+        <div class="container">
+            <h1>.: BLOG | BY CIPHERAT'S <s>PEN</s> KEYBOARD :.</h1>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <div id="blog-list">
+            {% for blog in blogs %}
+                <div class="blog-entry">
+                    <div class="metadata-time-group">
+                        [{{ blog.dates.published_at | default('DRAFT', true) }}]
+                    </div>
+                    <div class="title-category-row">
+                        <a href="/blogs/{{ blog.permalink_key }}" class="entry-title" title="Read {{ blog.title }}">
+                            {{ blog.title }}
+                        </a>
+                        <span class="category">
+                            <span class="separator">|</span> 
+                            <span class="category-name">{{ blog.category }}</span>
+                        </span>
+                    </div>
+                    <div class="read-time-row">
+                        ~{{ (blog.title | length % 5) + 3 }} min read 
+                    </div>
+                    <div class="brief-description">
+                        This article details the architectural decision to pivot from a traditional SQL back-end...
+                    </div>
+                </div>
+            {% else %}
+                <p style="text-align: center;">No blog posts found.</p>
+            {% endfor %}
+        </div>
+        
+        <div id="pagination-controls">
+            
+            {% set prev_page_num = page_data.page - 1 %}
+            {% set next_page_num = page_data.page + 1 %}
+            
+            {% if page_data.has_previous %}
+                <a href="{{ url_for('get_page_blogs') }}?page={{ prev_page_num }}" class="pagination-link">
+                    <button> < PREV </button>
+                </a>
+            {% else %}
+                <button disabled> < PREV </button>
+            {% endif %}
+
+            <span id="page-info">Page {{ page_data.page }} of {{ page_data.total_pages }}</span>
+            
+            {% if page_data.has_next %}
+                <a href="{{ url_for('get_page_blogs') }}?page={{ next_page_num }}" class="pagination-link">
+                    <button> NEXT > </button>
+                </a>
+            {% else %}
+                <button disabled> NEXT > </button>
+            {% endif %}
+
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const warningElement = document.getElementById('js-enabled-warning');
+            if (warningElement) {
+                warningElement.style.display = 'block';
+            }
+        });
+    </script>
+    
+</body>
+</html>

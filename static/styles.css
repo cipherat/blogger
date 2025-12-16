@@ -1,0 +1,185 @@
+/* ---------------------------------------------------- */
+/* --- LOCAL FONT DECLARATION (.ttf format) --- */
+/* ---------------------------------------------------- */
+@font-face {
+    font-family: 'Ubuntu Mono';
+    /* Make sure these file names match the TTF files you downloaded */
+    src: url('fonts/UbuntuMono-R.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Ubuntu Mono';
+    src: url('fonts/UbuntuMono-B.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Ubuntu Mono';
+    src: url('fonts/UbuntuMono-RI.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+
+/* --- Basic Reset and Layout --- */
+body { 
+    /* Use the locally defined font */
+    font-family: 'Ubuntu Mono', monospace;
+    margin: 0; 
+    padding: 0; 
+    background-color: #ffffff; 
+    color: #1c1c1c; 
+}
+
+.container { 
+    max-width: 900px; 
+    margin: 40px auto; 
+    padding: 0 20px; 
+}
+
+/* --- ASCII-Style Header --- */
+header { 
+    background-color: #ffffff; 
+    color: #1c1c1c; 
+    padding: 0 0 10px 0; 
+    margin-bottom: 30px; 
+    text-align: left; 
+    border-bottom: 1px solid #1c1c1c; 
+}
+
+header h1 { 
+    margin: 0; 
+    font-size: 1.5em; 
+    line-height: 1.2; 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+    font-weight: bold; 
+}
+
+header p { 
+    margin: 5px 0 0 0; 
+    font-size: 0.9em; 
+}
+
+/* --- Minimalist List/Card Styling --- */
+#blog-list { 
+    list-style: none; 
+    padding-left: 0; 
+}
+
+.blog-entry { 
+    border-bottom: 1px solid #cccccc; 
+    padding: 25px 0; 
+    display: flex; 
+    flex-direction: column; 
+    gap: 4px; 
+}
+
+.title-category-row { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: flex-start; 
+}
+
+/* Metadata (Date) - Sharp Black */
+.metadata-time-group { 
+    font-size: 0.9em; 
+    color: #1c1c1c; 
+    margin-bottom: 5px; 
+}
+
+/* Title Style */
+.entry-title { 
+    flex-grow: 1; 
+    font-size: 1.15em; 
+    font-weight: bold; 
+    color: #1c1c1c; 
+    text-decoration: none; 
+    margin-right: 15px; 
+    line-height: 1.2; 
+}
+
+.entry-title:hover { 
+    text-decoration: underline; 
+}
+
+/* Category Container */
+.category { 
+    color: #1c1c1c; 
+    white-space: nowrap; 
+    font-size: 1em; 
+    font-weight: 500; 
+}
+
+/* Category Name (Italic) */
+.category-name { 
+    font-style: italic; 
+}
+
+/* Category Separator (Normal style) */
+.category .separator { 
+    color: #aaaaaa; 
+    margin: 0 8px; 
+    font-style: normal; 
+}
+
+/* Read Time */
+.read-time-row { 
+    font-size: 0.9em; 
+    color: #1c1c1c; 
+    margin-left: 2px; 
+}
+
+/* Brief description - Italic, Sharp Black, Indented */
+.brief-description { 
+    margin-top: 5px; 
+    padding-left: 20px; 
+    font-size: 0.95em; 
+    color: #1c1c1c; 
+    line-height: 1.4; 
+    font-style: italic; 
+}
+
+/* --- Pagination Specific Styling (SSR friendly) --- */
+#pagination-controls { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 20px 0; 
+    margin-top: 10px; 
+    border-top: 1px solid #1c1c1c; 
+}
+
+/* Link Wrapper for the buttons */
+#pagination-controls a {
+    text-decoration: none; /* Crucial: removes underline from pagination links */
+}
+
+#pagination-controls button { 
+    background-color: #ffffff; 
+    color: #1c1c1c; 
+    border: 1px solid #1c1c1c; 
+    padding: 8px 15px; 
+    cursor: pointer; 
+    font-family: 'Ubuntu Mono', monospace; 
+    font-size: 0.9em; 
+    transition: background-color 0.1s; 
+}
+
+/* Hover state for buttons inside links */
+#pagination-controls a button:hover { 
+    background-color: #f0f0f0; 
+}
+
+/* Disabled state */
+#pagination-controls button:disabled { 
+    border-color: #cccccc; 
+    color: #cccccc; 
+    cursor: not-allowed; 
+}
