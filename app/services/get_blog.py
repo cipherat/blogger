@@ -5,6 +5,7 @@ from datetime import date
 from app.repositories.blogs import BlogRepository, get_blog_repository
 from app.models.blog import Blog, BlogModel, get_blog_model
 from app.models.dates import DatesModel
+from app.utils.slugify import slugify
 
 
 class GetBlogService:
@@ -12,14 +13,16 @@ class GetBlogService:
         self._repository: BlogRepository = get_blog_repository()
         self.model: Blog = get_blog_model(self._repository)
         
-    def run(self, blog_id: int) -> Dict[str, Any]:
+    def run(self, year: int, month: int, day: int, title: str) -> Dict[str, Any]:
         self._validate()
-        
-        blog = self.model.find_by_id(blog_id)
+
+        full_permalink = f"{year}/{month}/{day}/{slugify(title)}"
+        blog = self.model.find_by_permalink(full_permalink)
+
         return {
             "status": "success",
             "blog": blog,
-            "message": f"Successfully found blog with ID ({blog_id})",
+            "message": f"Successfully found blog.",
         }
 
     def _validate(self):
