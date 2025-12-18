@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register Blog | Admin</title>
+    <title>* register | cipherat.com</title>
     <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}"> 
     <style>
         .form-group { margin-bottom: 15px; }
@@ -29,16 +29,15 @@
 </head>
 <body>
 
-    <header>
-        <div class="container">
-            <h1>:: REGISTER BLOG ::</h1>
-            <p>Enter all metadata to register a new post.</p>
-        </div>
-    </header>
+     <header>
+         <div class="container">
+             <h1>.: BLOG REGISTERATION | ADMIN PANEL :.</h1>
+         </div> 
+     </header>
 
     <div class="container">
         
-        {% if errors.submission %}
+        {% if errors and errors.get('submission') %}
             <div class="form-error">{{ errors.submission }}</div>
         {% endif %}
 
@@ -46,40 +45,64 @@
             
             <div class="form-group">
                 <label for="title">Title:</label>
-                <input type="text" id="title" name="title" value="{{ form_data.title | default('') }}" required>
+                <input type="text" id="title" name="title" value="{{ form_data.get('title', '') }}" required>
             </div>
             
             <div class="form-group">
                 <label for="category">Category:</label>
-                <input type="text" id="category" name="category" value="{{ form_data.category | default('') }}" required>
+                <input type="text" id="category" name="category" value="{{ form_data.get('category', '') }}" required>
             </div>
 
             <div class="form-group">
                 <label for="published_at_str">Publication Date (YYYY-MM-DD):</label>
-                <input type="date" id="published_at_str" name="published_at_str" value="{{ form_data.published_at_str | default('') }}" required>
-                {% if errors.published_at %}<div class="form-error">{{ errors.published_at }}</div>{% endif %}
+                {# Guarded access to nested dates to prevent UndefinedError on first load #}
+                {% set pub_date = '' %}
+                {% if form_data.dates is defined and form_data.dates.published_at %}
+                    {% set pub_date = form_data.dates.published_at.strftime('%Y-%m-%d') %}
+                {% elif form_data.get('published_at_str') %}
+                    {% set pub_date = form_data.get('published_at_str') %}
+                {% endif %}
+                <input type="date" id="published_at_str" name="published_at_str" value="{{ pub_date }}" required>
+                {% if errors and errors.get('published_at') %}<div class="form-error">{{ errors.published_at }}</div>{% endif %}
             </div>
 
             <div class="form-group">
                 <label for="content_file">Content File Path/URL (.md):</label>
-                <input type="text" id="content_file" name="content_file" value="{{ form_data.content_file | default('') }}" required>
+                <input type="text" id="content_file" name="content_file" value="{{ form_data.get('content_file', '') }}" required>
             </div>
             
             <div class="form-group">
-                <label for="keywords_csv">Keywords (Comma-separated list, e.g., linux, server, code):</label>
-                <input type="text" id="keywords_csv" name="keywords_csv" value="{{ form_data.keywords | join(', ') | default('') }}" required>
+                <label for="keywords_csv">Keywords (Comma-separated list):</label>
+                {# Safely handle both list and string types for keywords #}
+                {% set kw_val = form_data.get('keywords', '') %}
+                <input type="text" id="keywords_csv" name="keywords_csv" 
+                       value="{{ kw_val | join(', ') if kw_val is iterable and kw_val is not string else kw_val }}" required>
             </div>
 
             <div class="form-group">
-                <label for="references_csv">References (Comma-separated List of Paths/URLs):</label>
-                <input type="text" id="references_csv" name="references_csv" value="{{ form_data.references | join(', ') | default('') }}">
+                <label for="references_csv">References (Comma-separated List):</label>
+                {% set ref_val = form_data.get('references', '') %}
+                <input type="text" id="references_csv" name="references_csv" 
+                       value="{{ ref_val | join(', ') if ref_val is iterable and ref_val is not string else ref_val }}">
             </div>
             
             <div class="form-group">
                 <label for="state">State:</label>
                 <select id="state" name="state">
                     {% for s in states %}
-                        <option value="{{ s }}" {% if (form_data.state == s) or (loop.first and not form_data.state) %}selected{% endif %}>{{ s }}</option>
+                        {% set opt_val = s.value if s.value is defined else s %}
+                        {# Safe retrieval of current state from dict or object #}
+                        {% set current_state = '' %}
+                        {% if form_data.state is defined %}
+                            {% set current_state = form_data.state.value if form_data.state.value is defined else form_data.state %}
+                        {% else %}
+                            {% set current_state = form_data.get('state', '') %}
+                        {% endif %}
+
+                        <option value="{{ opt_val }}" 
+                            {% if (current_state == opt_val) or (loop.first and not current_state) %}selected{% endif %}>
+                            {{ opt_val | upper }}
+                        </option>
                     {% endfor %}
                 </select>
             </div>
