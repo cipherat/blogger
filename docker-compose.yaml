@@ -1,0 +1,42 @@
+services:
+  database:
+    image: postgres:15-alpine
+    container_name: blogger_db
+    restart: always
+    environment:
+      POSTGRES_USER: blogger_user
+      POSTGRES_PASSWORD: your_password
+      POSTGRES_DB: blogger_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/10_schema.sql
+      - ./database/functions.sql:/docker-entrypoint-initdb.d/20_functions.sql
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U blogger_user -d blogger_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    container_name: blogger_app
+    restart: always
+    ports:
+      - "6969:6969"
+    environment:
+      - DB_NAME=blogger_db
+      - DB_USER=blogger_user
+      - DB_PASS=your_password
+      - DB_HOST=database
+      - DB_PORT=5432
+    volumes:
+      - .:/app
+    command: uvicorn main:app --host 0.0.0.0 --port 6969 --reload
+    depends_on:
+      database:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
