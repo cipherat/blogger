@@ -1,10 +1,8 @@
+from pydantic import BaseModel
+from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel
-from datetime import date
-
 class DatesModel(BaseModel):
-    """Corresponds to the 'dates' nested object."""
-    created_at: date
-    published_at: Optional[date] = None
-    last_update: Optional[date] = None
+    created_at: datetime
+    published_at: Optional[datetime] = None
+    last_update: datetime
