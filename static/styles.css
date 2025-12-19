@@ -1,9 +1,8 @@
 /* ---------------------------------------------------- */
-/* --- LOCAL FONT DECLARATION (.ttf format) --- */
+/* --- 1. LOCAL FONT DECLARATION --- */
 /* ---------------------------------------------------- */
 @font-face {
     font-family: 'Ubuntu Mono';
-    /* Make sure these file names match the TTF files you downloaded */
     src: url('fonts/UbuntuMono-R.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
@@ -26,160 +25,201 @@
     font-display: swap;
 }
 
-
-/* --- Basic Reset and Layout --- */
+/* ---------------------------------------------------- */
+/* --- 2. GLOBAL RESET & BASE --- */
+/* ---------------------------------------------------- */
 body { 
-    /* Use the locally defined font */
     font-family: 'Ubuntu Mono', monospace;
     margin: 0; 
     padding: 0; 
     background-color: #ffffff; 
     color: #1c1c1c; 
+    line-height: 1.6;
 }
 
 .container { 
     max-width: 900px; 
-    margin: 40px auto; 
+    margin: 60px auto; 
     padding: 0 20px; 
 }
 
-/* --- ASCII-Style Header --- */
+/* ---------------------------------------------------- */
+/* --- 3. COMMON COMPONENTS (Bars & Nav) --- */
+/* ---------------------------------------------------- */
+.brutalist-bar {
+    height: 8px;
+    background: #1c1c1c;
+    margin: 40px 0;
+}
+
+.back-link {
+    text-decoration: none;
+    color: #888;
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+
+.back-link:hover {
+    color: #000;
+    text-decoration: underline;
+}
+
+/* ---------------------------------------------------- */
+/* --- 4. INDEX PAGE STYLING --- */
+/* ---------------------------------------------------- */
 header { 
-    background-color: #ffffff; 
-    color: #1c1c1c; 
-    padding: 0 0 10px 0; 
-    margin-bottom: 30px; 
-    text-align: left; 
-    border-bottom: 1px solid #1c1c1c; 
+    border-bottom: 2px solid #1c1c1c; 
+    padding-bottom: 15px;
+    margin-bottom: 40px;
 }
 
 header h1 { 
     margin: 0; 
-    font-size: 1.5em; 
-    line-height: 1.2; 
+    font-size: 1.8em; 
     text-transform: uppercase; 
-    letter-spacing: 2px; 
-    font-weight: bold; 
-}
-
-header p { 
-    margin: 5px 0 0 0; 
-    font-size: 0.9em; 
-}
-
-/* --- Minimalist List/Card Styling --- */
-#blog-list { 
-    list-style: none; 
-    padding-left: 0; 
+    letter-spacing: 2px;
 }
 
 .blog-entry { 
-    border-bottom: 1px solid #cccccc; 
-    padding: 25px 0; 
+    border-bottom: 1px solid #eeeeee; 
+    padding: 30px 0; 
     display: flex; 
     flex-direction: column; 
-    gap: 4px; 
+    gap: 8px; 
 }
 
-.title-category-row { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: flex-start; 
-}
-
-/* Metadata (Date) - Sharp Black */
-.metadata-time-group { 
-    font-size: 0.9em; 
-    color: #1c1c1c; 
-    margin-bottom: 5px; 
-}
-
-/* Title Style */
 .entry-title { 
-    flex-grow: 1; 
-    font-size: 1.15em; 
+    font-size: 1.3em; 
     font-weight: bold; 
     color: #1c1c1c; 
     text-decoration: none; 
-    margin-right: 15px; 
-    line-height: 1.2; 
 }
 
-.entry-title:hover { 
-    text-decoration: underline; 
-}
+.entry-title:hover { text-decoration: underline; }
 
-/* Category Container */
-.category { 
-    color: #1c1c1c; 
-    white-space: nowrap; 
-    font-size: 1em; 
-    font-weight: 500; 
-}
-
-/* Category Name (Italic) */
-.category-name { 
-    font-style: italic; 
-}
-
-/* Category Separator (Normal style) */
-.category .separator { 
-    color: #aaaaaa; 
-    margin: 0 8px; 
-    font-style: normal; 
-}
-
-/* Read Time */
-.read-time-row { 
-    font-size: 0.9em; 
-    color: #1c1c1c; 
-    margin-left: 2px; 
-}
-
-/* Brief description - Italic, Sharp Black, Indented */
 .brief-description { 
-    margin-top: 5px; 
-    padding-left: 20px; 
-    font-size: 0.95em; 
-    color: #1c1c1c; 
-    line-height: 1.4; 
     font-style: italic; 
+    color: #444; 
+    padding-left: 15px;
+    border-left: 2px solid #eee;
 }
 
-/* --- Pagination Specific Styling (SSR friendly) --- */
-#pagination-controls { 
-    display: flex; 
-    justify-content: space-between; 
-    align-items: center; 
-    padding: 20px 0; 
-    margin-top: 10px; 
-    border-top: 1px solid #1c1c1c; 
+/* ---------------------------------------------------- */
+/* --- 5. FULL POST VIEW & METADATA GRID --- */
+/* ---------------------------------------------------- */
+.post-wrapper {
+    margin-top: 30px; 
 }
 
-/* Link Wrapper for the buttons */
-#pagination-controls a {
-    text-decoration: none; /* Crucial: removes underline from pagination links */
+.post-nav {
+    margin-bottom: 15px;
 }
 
-#pagination-controls button { 
-    background-color: #ffffff; 
-    color: #1c1c1c; 
-    border: 1px solid #1c1c1c; 
-    padding: 8px 15px; 
-    cursor: pointer; 
-    font-family: 'Ubuntu Mono', monospace; 
-    font-size: 0.9em; 
-    transition: background-color 0.1s; 
+.post-title {
+    font-size: 2.8rem;
+    line-height: 1;
+    margin: 0 0 15px 0;
+    letter-spacing: -1.5px;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
-/* Hover state for buttons inside links */
-#pagination-controls a button:hover { 
-    background-color: #f0f0f0; 
+.meta-bar {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    border-top: 1px solid #1c1c1c;
+    border-bottom: 1px solid #1c1c1c;
+    padding: 8px 0;
+    font-size: 0.85rem;
 }
 
-/* Disabled state */
-#pagination-controls button:disabled { 
-    border-color: #cccccc; 
-    color: #cccccc; 
-    cursor: not-allowed; 
+.m-item {
+    display: inline;
+    margin-right: 10px;
 }
+
+.m-lbl {
+    color: #888;
+    font-weight: bold;
+    font-size: 0.7rem;
+}
+
+.m-sep {
+    color: #ddd;
+    margin-right: 10px;
+}
+
+.markdown-body {
+    margin-top: 40px;
+}
+
+.post-metadata::-webkit-scrollbar {
+    display: none;
+}
+
+/* ---------------------------------------------------- */
+/* --- 6. PURE MARKDOWN CONTENT (SERVER-SIDE) --- */
+/* ---------------------------------------------------- */
+.markdown-body {
+    font-size: 1.15rem;
+    color: #222;
+}
+
+.markdown-body h2 {
+    font-size: 1.8em;
+    margin: 2em 0 1em 0;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 5px;
+}
+
+.markdown-body p {
+    margin-bottom: 1.6em;
+}
+
+.markdown-body pre {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    padding: 25px;
+    overflow-x: auto;
+    margin: 35px 0;
+    border-left: 8px solid #444;
+    font-family: 'Ubuntu Mono', monospace;
+    font-size: 0.95em;
+}
+
+.markdown-body code {
+    font-family: 'Ubuntu Mono', monospace;
+    background-color: #f4f4f4;
+    padding: 2px 6px;
+}
+
+.markdown-body pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+.markdown-body blockquote {
+    margin: 30px 0;
+    padding: 10px 25px;
+    border-left: 5px solid #1c1c1c;
+    background-color: #f9f9f9;
+    font-style: italic;
+}
+
+.markdown-body table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 30px 0;
+}
+
+.markdown-body th, .markdown-body td {
+    border: 1px solid #1c1c1c;
+    padding: 12px;
+    text-align: left;
+}
+
+.markdown-body th { background-color: #f0f0f0; }
