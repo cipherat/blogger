@@ -26,11 +26,12 @@ services:
     ports:
       - "6969:6969"
     environment:
-      - DB_NAME=blogger_db
-      - DB_USER=blogger_user
-      - DB_PASS=your_password
-      - DB_HOST=database
-      - DB_PORT=5432
+      - BLOGGER_DB_NAME=blogger_db
+      - BLOGGER_DB_USER=blogger_user
+      - BLOGGER_DB_PASS=your_password
+      - BLOGGER_DB_HOST=database
+      - BLOGGER_DB_PORT=5432
+      - BLOGGER_IS_ADMIN=1
     volumes:
       - .:/app
     command: uvicorn main:app --host 0.0.0.0 --port 6969 --reload
