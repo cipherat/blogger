@@ -23,12 +23,29 @@ class BlogService:
         self.model = model
 
     def get_one(self, year: str, month: str, day: str, slug: str) -> Dict[str, Any]:
-        blog = self.model.find_by_permalink(year, month, day, slug)
-        return {
-            "status": "success" if blog else "error",
-            "blog": blog,
-            "message": "Blog found" if blog else "Blog not found",
-        }
+        blog_schema = self.model.find_by_permalink(year, month, day, slug)        
+        if not blog_schema:
+            return {"status": "error", "message": "Blog not found"}
+
+        file_path = blog_schema.content_file
+        try:
+            if not os.path.exists(file_path):
+                return {
+                    "status": "error",
+                    "message": f"Source file missing: {blog_schema.content_file}",
+                }
+            
+            with open(file_path, "r", encoding="utf-8") as f:
+                content = f.read()
+                
+            return {
+                "status": "success",
+                "blog": blog_schema,
+                "content": content,
+                "message": "Source content loaded successfully",
+            }
+        except Exception as e:
+            return {"status": "error", "message": f"Filesystem Error: {str(e)}"}
 
     def get_by_id(self, blog_id: str) -> Dict[str, Any]:
         blog = self.model.find_by_id(blog_id)
