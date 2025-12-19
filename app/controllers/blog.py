@@ -16,17 +16,23 @@ from app.contracts.blog import (
     ActionResponse
 )
 from app.enums.enums import BlogState
+from app.utils.markdown import MarkdownRenderer
 
 
-router = APIRouter(
+public = APIRouter(
     prefix="/blogs",
     tags=["Blog Management"],
+)
+
+admin = APIRouter(
+    prefix="/blogs",
+    tags=["Blog Management (Admin)"],
 )
 
 templates = Jinja2Templates(directory="templates")
 
 
-@router.get("/", name="page_blogs")
+@public.get("/", name="page_blogs")
 async def get_page_blogs(
     request: Request,
     page: int = Query(1, ge=1),
@@ -48,19 +54,33 @@ async def get_page_blogs(
     return GetPageBlogsResponse(**result)
 
 
-@router.get("/{year}/{month}/{day}/{slug}", response_model=GetBlogResponse)
+@public.get("/{year}/{month}/{day}/{slug}", response_model=GetBlogResponse)
 async def get_blog_by_permalink(
     year: str, month: str, day: str, slug: str,
+    request: Request,
     service: BlogService = Depends(get_blog_service),
 ):
     result = service.get_one(year, month, day, slug)
-    if result["status"] == "error":
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=result["message"])
-    
+    if result.get("status") == "error":
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=result.get("message"))
+
+    blog = result.get("blog")
+    raw_markdown = result.get("content")
+    render = MarkdownRenderer.render(raw_markdown)
+
+    if "text/html" in request.headers.get("accept", ""):
+        return templates.TemplateResponse("post.html", {
+            "request": request,
+            "blog": blog,
+            "content": render.get("html"),
+            "reading_time": render.get("reading_time"),
+            "word_count": render.get("word_count"),
+        })
+
     return GetBlogResponse(**result)
 
 
-@router.get("/id/{blog_id}", response_model=GetBlogResponse)
+@public.get("/{blog_id}", response_model=GetBlogResponse)
 async def get_blog_by_id(
     blog_id: str,
     service: BlogService = Depends(get_blog_service)
@@ -72,7 +92,7 @@ async def get_blog_by_id(
     return GetBlogResponse(**result)
 
 
-@router.get("/register", response_class=HTMLResponse)
+@admin.get("/register", response_class=HTMLResponse)
 async def get_register_form(request: Request):
     context = {
         "request": request,
@@ -83,7 +103,7 @@ async def get_register_form(request: Request):
     return templates.TemplateResponse("register.html", context)
 
 
-@router.post("/register", name="register_submission")
+@admin.post("/register", name="register_submission")
 async def register(
     request: Request,
     title: str = Form(...),
@@ -127,7 +147,7 @@ async def register(
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.put("/{blog_id}", response_model=ActionResponse)
+@admin.put("/{blog_id}", response_model=ActionResponse)
 async def update_blog(
     blog_id: str,
     update_data: UpdateBlogRequest,
@@ -140,7 +160,7 @@ async def update_blog(
     return ActionResponse(**result)
 
 
-@router.delete("/{blog_id}", response_model=ActionResponse)
+@admin.delete("/{blog_id}", response_model=ActionResponse)
 async def delete_blog(
     blog_id: str,
     service: BlogService = Depends(get_blog_service)
