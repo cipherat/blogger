@@ -144,7 +144,7 @@ async def register(
             }
             return templates.TemplateResponse("register.html", context, status_code=status.HTTP_400_BAD_REQUEST)
         
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
 
 
 @admin.put("/{blog_id}", response_model=ActionResponse)
