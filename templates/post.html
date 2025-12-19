@@ -13,13 +13,13 @@
         <h1 class="post-title">{{ blog.title }}</h1>
         
         <div class="meta-bar">
-            <span class="m-item"><span class="m-lbl">published: </span>{{ blog.dates.published_at.strftime('%Y-%m-%d') }}</span>
+            <span class="m-item"><span class="m-lbl">PUBLISHED: </span>{{ blog.dates.published_at.strftime('%Y-%m-%d') }}</span>
             <span class="m-sep">|</span>
-            <span class="m-item"><span class="m-lbl">updated: </span>{{ blog.dates.last_update.strftime('%Y-%m-%d') }}</span>
+            <span class="m-item"><span class="m-lbl">UPDATED: </span>{{ blog.dates.last_update.strftime('%Y-%m-%d') }}</span>
             <span class="m-sep">|</span>
-            <span class="m-item"><span class="m-lbl">read time: </span>{{ reading_time }} min</span>
+            <span class="m-item"><span class="m-lbl">READ: </span>{{ reading_time }} min</span>
             <span class="m-sep">|</span>
-            <span class="m-item"><span class="m-lbl">words: </span>{{ word_count }}W</span>
+            <span class="m-item"><span class="m-lbl">WORDS: </span>{{ word_count }}W</span>
             <span class="m-sep">|</span>
             <span class="m-item"><span class="m-lbl">ID: #</span>{{ blog.id }}</span>
         </div>

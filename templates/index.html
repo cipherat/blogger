@@ -38,65 +38,59 @@
      </header> 
 
      <div class="container"> 
-          
-         <div id="blog-list"> 
-             {% for blog in blogs %} 
-                 <div class="blog-entry"> 
-		   <div class="metadata-time-group">
-		     {% if blog.state.value == 'published' and blog.dates.published_at %}
-		     [{{ blog.dates.published_at.strftime('%Y-%m-%d') }}]
-		     {% else %}
-		     <span class="draft-label">[DRAFT]</span>
-		     {% endif %}
-		   </div>
-                     <div class="title-category-row"> 
-                         {# Using permalink_key from the blog dictionary #}
-                         <a href="/blogs/{{ blog.permalink_key }}" class="entry-title" title="Read {{ blog.title }}"> 
-                             {{ blog.title }} 
-                         </a> 
-                         <span class="category"> 
-                             <span class="separator">|</span>  
-                             <span class="category-name">{{ blog.category }}</span> 
-                         </span> 
-                     </div> 
-                     <div class="read-time-row"> 
-                         ~{{ (blog.title | length % 5) + 3 }} min read  
-                     </div> 
-                     <div class="brief-description"> 
-                         This article details the architectural decision to pivot from a traditional SQL back-end... 
-                     </div> 
-                 </div> 
+       
+       <div id="blog-list"> 
+         {% for blog in blogs %} 
+	 <div class="blog-entry"> 
+	   <div class="metadata-time-group">
+             {% if blog.state.value == 'published' and blog.dates.published_at %}
+             [{{ blog.dates.published_at.strftime('%Y-%m-%d') }}]
+             {% else %}
+             <span class="draft-label">[DRAFT]</span>
+             {% endif %}
+	   </div>
+
+	   <div class="title-category-row"> 
+	     <a href="/blogs/{{ blog.permalink_key }}" class="entry-title" title="Read {{ blog.title }}"> 
+               {{ blog.title }} 
+	     </a> 
+	     <span class="category-tag"> 
+               | <i>{{ blog.category }}</i>
+	     </span> 
+	   </div>
+
+	   <div class="brief-description"> 
+             This article details the architectural decision to pivot from a traditional SQL back-end... 
+	   </div> 
+	 </div>
              {% else %} 
                  <p style="text-align: center;">No blog posts found.</p> 
              {% endfor %} 
          </div> 
-          
-         <div id="pagination-controls"> 
-              
-             {# page_data is the 'result' dict from service #}
-             {% set prev_page_num = page_data.page - 1 %} 
-             {% set next_page_num = page_data.page + 1 %} 
-              
-             {% if page_data.has_previous %} 
-                 <a href="{{ url_for('page_blogs') }}?page={{ prev_page_num }}" class="pagination-link"> 
-                     <button> < PREV </button> 
-                 </a> 
-             {% else %} 
-                 <button disabled> < PREV </button> 
-             {% endif %} 
+       
+       <div id="pagination-controls"> 
+	 <div class="nav-left">
+           {% if page_data.has_previous %} 
+           <a href="{{ url_for('page_blogs') }}?page={{ page_data.page - 1 }}"> 
+             <button> < PREV </button> 
+			</a> 
+           {% else %} 
+           <button disabled> < PREV </button> 
+			       {% endif %} 
+			       </div>
 
-             <span id="page-info">Page {{ page_data.page }} of {{ page_data.total_pages }}</span> 
-              
-             {% if page_data.has_next %} 
-                 <a href="{{ url_for('page_blogs') }}?page={{ next_page_num }}" class="pagination-link"> 
-                     <button> NEXT > </button> 
-                 </a> 
-             {% else %} 
-                 <button disabled> NEXT > </button> 
-             {% endif %} 
+	 <span id="page-info">PAGE {{ page_data.page }} OF {{ page_data.total_pages }}</span> 
 
-         </div> 
-     </div> 
+	 <div class="nav-right">
+	   {% if page_data.has_next %} 
+           <a href="{{ url_for('page_blogs') }}?page={{ page_data.page + 1 }}"> 
+             <button> NEXT > </button> 
+</a> 
+{% else %} 
+<button disabled> NEXT > </button> 
+             {% endif %} 
+	 </div>
+       </div>
       
      <script> 
          document.addEventListener('DOMContentLoaded', function() { 
