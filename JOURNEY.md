@@ -33,3 +33,12 @@ I really need to find a better database than the shitty csv, I also need to find
 
 ##### 22/12/2025 _(one day after my database final)_ Shit, i got sick
 So, I've done some major changes in the application without documenting anything, and this is what I hate about myself, the inability to speak my mind. However, new updates were about the database and generally _how_ and _where_ to save the blogs' metadata, I made some stress testing on the previous strategy -that uses csv files- and it was so bad that it took >100ms for fetching/displaying 5K entries only (I know I wouldn't be writing 5K pages any sooner, but hey, as I mentioned before I'm building this tool with a software engineer mindset, so Im trying to maximize the performance of everything), so that was the motivation to move to Postgres database. HOWEVER. after stress testing again to approximately measure the improvement of how to save the data, I got great numbers _(e.g. ~30ms)_, but after doing it I didn't feel that I was supposed to go in this path, to use such great software one created before me and just use it because it works and works good, what my real intuition was to build a full system from the ground up, considering the points where and how am I going to save the data, how to later fetch this data and process it and how can I use the best data structure for my cases _(i.e. my todo list)_, all the way up to how to create enough abstraction to represent this data for whatever the method of view users of this tool will be using.
+
+todays todo:
+- [ ] add a column for language in database
+- [ ] handle text representation whether language is LTR or RLT
+- [ ] keywords and references are optional
+- [ ] review how dates are handled (should be managed by database writes, not manually)
+- [ ] add support for arabic letters in slugifying links
+- [ ] add a base html for posts to render basic actions (back to blogs, home page, etc.)
+- [ ] review url redirections in `templates/`
