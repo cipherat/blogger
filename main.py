@@ -63,7 +63,7 @@ async def root():
 
 @app.get("/health")
 def health_check():
-    return {"status": "online", "user": "admin" if settings.IS_ADMIN else "public"}
+    return {"status": "online", "user": "admin" if settings.BLOGGER_IS_ADMIN else "public"}
 
 @app.exception_handler(404)
 async def custom_404_handler(request: Request, exc: Exception):
