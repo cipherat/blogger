@@ -23,7 +23,7 @@ class BlogService:
         self.model = model
 
     def get_one(self, year: str, month: str, day: str, slug: str) -> Dict[str, Any]:
-        blog_schema = self.model.find_by_permalink(year, month, day, slug)        
+        blog_schema = self.model.find_by_permalink(year, month, day, slug)
         if not blog_schema:
             return {"status": "error", "message": "Blog not found"}
 
