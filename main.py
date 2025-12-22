@@ -53,9 +53,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-app.include_router(blog_public)
+
 if settings.BLOGGER_IS_ADMIN:
     app.include_router(blog_admin)
+
+app.include_router(blog_public)
 
 @app.get("/", include_in_schema=False)
 async def root():
