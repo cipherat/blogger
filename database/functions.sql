@@ -98,7 +98,7 @@ BEGIN
     WHERE TO_CHAR(COALESCE(b.published_at, b.created_at), 'YYYY') = p_year
       AND TO_CHAR(COALESCE(b.published_at, b.created_at), 'MM') = p_month
       AND TO_CHAR(COALESCE(b.published_at, b.created_at), 'DD') = p_day
-      AND LOWER(REGEXP_REPLACE(b.title, '[^a-zA-Z0-9]+', '-', 'g')) = LOWER(p_slug);
+      AND TRIM(BOTH '-' FROM LOWER(REGEXP_REPLACE(b.title, '[^a-zA-Z0-9]+', '-', 'g'))) = LOWER(p_slug);
 END;
 $$ LANGUAGE plpgsql;
 
