@@ -17,7 +17,6 @@ from app.controllers.blog import (
 
 settings = get_settings()
 API_VERSION = "v1.0.0"
-API_PREFIX = f"/api/{API_VERSION.split('.')[0]}"
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -36,7 +35,6 @@ templates = Jinja2Templates(directory="templates")
 app = FastAPI(
     title="Blog Management Tool API",
     version=API_VERSION,
-    root_path=API_PREFIX,
     lifespan=lifespan,
 )
 app.mount("/static", StaticFiles(directory="static"), name="static")
